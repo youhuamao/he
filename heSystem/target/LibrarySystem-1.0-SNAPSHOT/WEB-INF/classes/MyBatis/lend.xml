@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.library.dao.LendDao">
+    <update id="returnBookOne">
+        update eat.collection_list set back_date = sysdate() where eat_id = #{eat_id}
+        and reader_id = #{reader_id} and back_date is null
+    </update>
+    <update id="returnBookTwo" parameterType="long">
+        update eat.eat_info set number = number + 1 where eat_id = #{eat_id}
+    </update>
+    <insert id="lendBookOne">
+        insert into eat.collection_list values
+        (null , #{eat_id} , #{reader_id} , sysdate() , null)
+    </insert>
+    <update id="lendBookTwo" parameterType="long">
+        update eat.eat_info set number = number - 1 where eat_id = #{eat_id}
+    </update>
+    <select id="lendList" resultType="com.library.bean.Lend">
+        select * from eat.collection_list
+    </select>
+    <select id="myLendList" resultType="com.library.bean.Lend" parameterType="long">
+        select * from eat.collection_list where reader_id = #{reader_id}
+    </select>
+    <delete id="deleteLend" parameterType="long">
+        delete from eat.collection_list where ser_num = #{ser_num}
+    </delete>
+</mapper>
